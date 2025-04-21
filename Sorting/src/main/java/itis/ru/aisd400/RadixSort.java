@@ -38,17 +38,19 @@ public class RadixSort {
             iterationCount++;
         }
 
-        for (int i = 0; i < output.length; i++) {
-            arr[i] = output[i];
-            iterationCount++;
-        }
+        System.arraycopy(output, 0, arr, 0, n);
+        iterationCount += n;
     }
 
-    public static void print(int arr[], int n) {
+    public static void printResults(int arr[], int n, long time, int iterations) {
+        System.out.println("==========================================================");
+        System.out.println("Размер массива: " + n + " элементов");
+        System.out.println("Время выполнения: " + time + " мкс");
+        System.out.println("Количество операций: " + iterations);
+
         for (int i = 0; i < n-1; i++) {
             System.out.print(arr[i] + " ");
         }
-        System.out.println();
         System.out.println();
     }
 
@@ -64,10 +66,8 @@ public class RadixSort {
             iterationCount++;
         }
 
-        double time = (System.nanoTime() - startTime) / 1000.0;
-        System.out.println("Время выполнения в мкс: " + time);
-        System.out.println("Количество итераций: " + iterationCount);
-
+        long time = (System.nanoTime() - startTime) / 1000;
+        printResults(arr, n, time, iterationCount);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -88,11 +88,7 @@ public class RadixSort {
                 numbers[j] = tempNumbers[j];
             }
 
-            System.out.println("Размер массива: " + size + " элементов");
-
             radixsort(numbers, numbers.length);
-            print(numbers, numbers.length);
         }
     }
 }
-
