@@ -6,13 +6,13 @@ import java.util.Scanner;
 
 public class RadixSort {
     private static int iterationCount = 0;
+
     public static int getMax(int arr[], int n) {
         int max = arr[0];
         for (int i = 1; i < n; i++) {
             if (arr[i] > max) {
                 max = arr[i];
             }
-            iterationCount++;
         }
         return max;
     }
@@ -22,13 +22,13 @@ public class RadixSort {
         int[] output = new int[n];
         int[] count = new int[10];
 
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             count[(arr[i]/position) % 10]++;
             iterationCount++;
         }
 
         for (int i = 1; i < 10; i++) {
-            count[i] = count[i] + count[i - 1];
+            count[i] += count[i - 1];
             iterationCount++;
         }
 
@@ -39,7 +39,6 @@ public class RadixSort {
         }
 
         System.arraycopy(output, 0, arr, 0, n);
-        iterationCount += n;
     }
 
     public static void printResults(int arr[], int n, long time, int iterations) {
@@ -59,11 +58,8 @@ public class RadixSort {
         long startTime = System.nanoTime();
 
         int max = getMax(arr, n);
-        int position = 1;
-        while (max/position > 0) {
+        for (int position = 1; max / position > 0; position *= 10) {
             countingSort(arr, position);
-            position *= 10;
-            iterationCount++;
         }
 
         long time = (System.nanoTime() - startTime) / 1000;
@@ -83,10 +79,7 @@ public class RadixSort {
             scanner.close();
 
             int[] numbers = new int[size];
-
-            for (int j = 0; j < size; j++) {
-                numbers[j] = tempNumbers[j];
-            }
+            System.arraycopy(tempNumbers, 0, numbers, 0, size);
 
             radixsort(numbers, numbers.length);
         }
